@@ -3,6 +3,8 @@ package com.josedavid.ecommerce.app.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -17,6 +19,6 @@ public class Product {
 
     private String name;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private Integer stock;
 }
