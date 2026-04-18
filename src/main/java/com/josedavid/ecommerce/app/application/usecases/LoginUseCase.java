@@ -1,0 +1,46 @@
+package com.josedavid.ecommerce.app.application.usecases;
+
+import com.josedavid.ecommerce.app.application.service.JwtService;
+import com.josedavid.ecommerce.app.domain.entity.User;
+import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.AuthResponse;
+import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.LoginRequest;
+import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class LoginUseCase {
+
+    private final UserRepository repository;
+    private final PasswordEncoder encoder;
+    private final JwtService jwtService;
+
+    public LoginUseCase(UserRepository repository,
+                        PasswordEncoder encoder,
+                        JwtService jwtService) {
+        this.repository = repository;
+        this.encoder = encoder;
+        this.jwtService = jwtService;
+    }
+
+    public AuthResponse execute(LoginRequest request) {
+
+        User user = repository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+        if (!encoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password incorrecta");
+        }
+
+        String accessToken = jwtService.generateToken(
+                user.getUsername(),
+                user.getRole().name()
+        );
+
+        String refreshToken = jwtService.generateRefreshToken(
+                user.getUsername()
+        );
+
+        return new AuthResponse(accessToken, refreshToken);
+    }
+}

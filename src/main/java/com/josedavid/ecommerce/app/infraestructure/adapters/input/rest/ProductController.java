@@ -2,7 +2,8 @@ package com.josedavid.ecommerce.app.infraestructure.adapters.input.rest;
 
 import com.josedavid.ecommerce.app.application.usecases.*;
 import com.josedavid.ecommerce.app.domain.entity.Product;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.rest.dto.ProductRequest;
+import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.ProductRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,21 +42,25 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "Obtener todos los productos")
     public List<Product> getAll() {
         return getProductsUseCase.execute();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener producto por Id")
     public Product getById(@PathVariable Long id) {
         return getProductByIdUseCase.execute(id);
     }
 
     @PostMapping
+    @Operation(summary = "Crear producto")
     public Product create(@Valid @RequestBody ProductRequest request) {
         return createProductUseCase.execute(request);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Actualizar producto")
     public Product update(
             @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
@@ -64,6 +69,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Borrar producto")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         deleteProductUseCase.execute(id);
@@ -72,11 +78,13 @@ public class ProductController {
     }
 
     @GetMapping("/paged")
+    @Operation(summary = "Paginacion de los productos")
     public Page<Product> getPaged(Pageable pageable) {
         return getProductsPagedUseCase.execute(pageable);
     }
 
     @GetMapping("/search")
+    @Operation(summary = "Filtrar productos")
     public List<Product> search(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) BigDecimal minPrice,
