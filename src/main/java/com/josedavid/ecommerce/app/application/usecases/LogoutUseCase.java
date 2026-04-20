@@ -14,14 +14,12 @@ public class LogoutUseCase {
     }
 
     public void execute(String token) {
-
-        RefreshToken entity =
-                repository.findByToken(token)
-                        .orElseThrow(() ->
-                                new RuntimeException("Token no encontrado"));
-
+        RefreshToken entity = repository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token no encontrado"));
+        if (entity.isRevoked()) {
+            return; // ya estaba logout
+        }
         entity.setRevoked(true);
-
         repository.save(entity);
     }
 }

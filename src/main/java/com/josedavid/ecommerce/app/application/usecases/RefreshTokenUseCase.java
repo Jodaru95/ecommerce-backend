@@ -24,35 +24,24 @@ public class RefreshTokenUseCase {
     }
 
     public AuthResponse execute(String refreshToken) {
-
         if (!jwtService.isValid(refreshToken)) {
             throw new RuntimeException("Refresh token inválido");
         }
-
         RefreshToken tokenEntity = repository.findByToken(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Token no encontrado"));
-
         if (tokenEntity.isRevoked()) {
             throw new RuntimeException("Token revocado");
         }
-
         if (tokenEntity.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Token expirado");
         }
-
         User user = tokenEntity.getUser();
+        // ROTACIÓN PROFESIONAL
+        tokenEntity.setRevoked(true);
+        repository.save(tokenEntity);
 
-        // ROTACIÓN
-        repository.delete(tokenEntity);
-
-        String newAccess = jwtService.generateAccessToken(
-                user.getUsername(),
-                user.getRole().name()
-        );
-
-        String newRefresh = jwtService.generateRefreshToken(
-                user.getUsername()
-        );
+        String newAccess = jwtService.generateAccessToken(user.getUsername(),user.getRole().name());
+        String newRefresh = jwtService.generateRefreshToken(user.getUsername());
 
         RefreshToken newEntity = new RefreshToken();
         newEntity.setToken(newRefresh);
