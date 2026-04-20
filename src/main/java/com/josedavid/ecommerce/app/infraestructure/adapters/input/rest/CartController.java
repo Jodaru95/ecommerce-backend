@@ -2,7 +2,9 @@ package com.josedavid.ecommerce.app.infraestructure.adapters.input.rest;
 
 import com.josedavid.ecommerce.app.application.dto.AddToCartRequest;
 import com.josedavid.ecommerce.app.application.dto.UpdateCartItemRequest;
+import com.josedavid.ecommerce.app.application.dto.CartResponse;
 import com.josedavid.ecommerce.app.application.usecases.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,33 +31,36 @@ public class CartController {
 
     // 🟢 Añadir producto
     @PostMapping("/items")
-    public void addToCart(
+    public ResponseEntity<Void> addToCart(
         Authentication auth,
         @RequestBody AddToCartRequest request
     ) {
         String username = auth.getName();
         addToCartUseCase.execute(username, request);
+        return ResponseEntity.ok().build();
     }
 
     // 🟡 Actualizar cantidad
     @PutMapping("/items/{itemId}")
-    public void updateItem(
+    public ResponseEntity<Void> updateItem(
         @PathVariable Long itemId,
         @RequestBody UpdateCartItemRequest request
     ) {
         updateCartItemUseCase.execute(itemId, request);
+        return ResponseEntity.ok().build();
     }
 
     // 🔴 Eliminar item
     @DeleteMapping("/items/{itemId}")
-    public void removeItem(@PathVariable Long itemId) {
+    public ResponseEntity<Void> removeItem(@PathVariable Long itemId) {
         removeCartItemUseCase.execute(itemId);
+        return ResponseEntity.ok().build();
     }
 
     // 🔵 Obtener carrito
     @GetMapping
-    public Object getCart(Authentication auth) {
+    public ResponseEntity<CartResponse> getCart(Authentication auth) {
         String username = auth.getName();
-        return getCartUseCase.execute(username);
+        return ResponseEntity.ok(getCartUseCase.execute(auth.getName()));
     }
 }
