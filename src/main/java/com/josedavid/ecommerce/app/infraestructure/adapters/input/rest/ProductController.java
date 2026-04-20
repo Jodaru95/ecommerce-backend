@@ -2,7 +2,7 @@ package com.josedavid.ecommerce.app.infraestructure.adapters.input.rest;
 
 import com.josedavid.ecommerce.app.application.usecases.*;
 import com.josedavid.ecommerce.app.domain.entity.Product;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.ProductRequest;
+import com.josedavid.ecommerce.app.application.dto.ProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

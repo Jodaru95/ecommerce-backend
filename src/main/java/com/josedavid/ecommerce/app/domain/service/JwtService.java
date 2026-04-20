@@ -1,4 +1,4 @@
-package com.josedavid.ecommerce.app.application.service;
+package com.josedavid.ecommerce.app.domain.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

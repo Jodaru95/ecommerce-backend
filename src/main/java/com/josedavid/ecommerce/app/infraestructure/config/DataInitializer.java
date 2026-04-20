@@ -1,6 +1,6 @@
 package com.josedavid.ecommerce.app.infraestructure.config;
 
-import com.josedavid.ecommerce.app.domain.entity.Role;
+import com.josedavid.ecommerce.app.domain.enums.Role;
 import com.josedavid.ecommerce.app.domain.entity.User;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;

@@ -4,14 +4,11 @@ import com.josedavid.ecommerce.app.application.usecases.LoginUseCase;
 import com.josedavid.ecommerce.app.application.usecases.LogoutUseCase;
 import com.josedavid.ecommerce.app.application.usecases.RefreshTokenUseCase;
 import com.josedavid.ecommerce.app.application.usecases.RegisterUserUseCase;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.AuthResponse;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.LoginRequest;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.RefreshRequest;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.RegisterRequest;
-import org.springframework.http.ResponseEntity;
+import com.josedavid.ecommerce.app.application.dto.AuthResponse;
+import com.josedavid.ecommerce.app.application.dto.LoginRequest;
+import com.josedavid.ecommerce.app.application.dto.RefreshRequest;
+import com.josedavid.ecommerce.app.application.dto.RegisterRequest;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")

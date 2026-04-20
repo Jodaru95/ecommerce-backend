@@ -3,7 +3,6 @@ package com.josedavid.ecommerce.app.infraestructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,16 +37,19 @@ public class SecurityConfig {
                 ).permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/products/**")
-                .hasAnyRole("USER", "ADMIN")
+                    .hasAnyRole("USER", "ADMIN")
 
                 .requestMatchers(HttpMethod.POST, "/products")
-                .hasRole("ADMIN")
+                    .hasRole("ADMIN")
 
                 .requestMatchers(HttpMethod.PUT, "/products/**")
-                .hasRole("ADMIN")
+                    .hasRole("ADMIN")
 
                 .requestMatchers(HttpMethod.DELETE, "/products/**")
-                .hasRole("ADMIN")
+                    .hasRole("ADMIN")
+
+                .requestMatchers("/cart/**")
+                    .hasAnyRole("USER","ADMIN")
 
                 .anyRequest().authenticated()
         );

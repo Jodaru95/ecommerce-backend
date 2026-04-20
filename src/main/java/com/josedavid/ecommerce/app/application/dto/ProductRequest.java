@@ -1,4 +1,4 @@
-package com.josedavid.ecommerce.app.infraestructure.adapters.input.dto;
+package com.josedavid.ecommerce.app.application.dto;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

@@ -1,5 +1,6 @@
 package com.josedavid.ecommerce.app.domain.entity;
 
+import com.josedavid.ecommerce.app.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

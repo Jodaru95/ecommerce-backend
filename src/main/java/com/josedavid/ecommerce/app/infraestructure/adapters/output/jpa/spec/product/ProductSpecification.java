@@ -1,4 +1,4 @@
-package com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.specification;
+package com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.spec.product;
 
 import com.josedavid.ecommerce.app.domain.entity.Product;
 import org.springframework.data.jpa.domain.Specification;

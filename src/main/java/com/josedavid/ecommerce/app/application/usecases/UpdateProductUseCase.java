@@ -1,7 +1,7 @@
 package com.josedavid.ecommerce.app.application.usecases;
 
 import com.josedavid.ecommerce.app.domain.entity.Product;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.ProductRequest;
+import com.josedavid.ecommerce.app.application.dto.ProductRequest;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.ProductRepository;
 import com.josedavid.ecommerce.app.infraestructure.config.ProductNotFoundException;
 import org.springframework.stereotype.Service;

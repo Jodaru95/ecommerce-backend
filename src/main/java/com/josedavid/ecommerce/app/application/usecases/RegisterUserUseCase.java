@@ -1,10 +1,10 @@
 package com.josedavid.ecommerce.app.application.usecases;
 
-import com.josedavid.ecommerce.app.application.service.JwtService;
-import com.josedavid.ecommerce.app.domain.entity.Role;
+import com.josedavid.ecommerce.app.domain.service.JwtService;
+import com.josedavid.ecommerce.app.domain.enums.Role;
 import com.josedavid.ecommerce.app.domain.entity.User;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.AuthResponse;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.RegisterRequest;
+import com.josedavid.ecommerce.app.application.dto.AuthResponse;
+import com.josedavid.ecommerce.app.application.dto.RegisterRequest;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.josedavid.ecommerce.app.application.usecases;
 
 import com.josedavid.ecommerce.app.domain.entity.Product;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.ProductRepository;
-import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.specification.ProductSpecification;
+import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.spec.product.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 

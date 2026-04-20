@@ -1,6 +1,6 @@
 package com.josedavid.ecommerce.app.infraestructure.config;
 
-import com.josedavid.ecommerce.app.application.service.JwtService;
+import com.josedavid.ecommerce.app.domain.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

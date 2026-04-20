@@ -1,10 +1,10 @@
 package com.josedavid.ecommerce.app.application.usecases;
 
-import com.josedavid.ecommerce.app.application.service.JwtService;
+import com.josedavid.ecommerce.app.domain.service.JwtService;
 import com.josedavid.ecommerce.app.domain.entity.RefreshToken;
 import com.josedavid.ecommerce.app.domain.entity.User;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.AuthResponse;
-import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.LoginRequest;
+import com.josedavid.ecommerce.app.application.dto.AuthResponse;
+import com.josedavid.ecommerce.app.application.dto.LoginRequest;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.RefreshTokenRepository;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
