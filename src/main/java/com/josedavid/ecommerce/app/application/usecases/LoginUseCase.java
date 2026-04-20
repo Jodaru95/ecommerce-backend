@@ -22,7 +22,8 @@ public class LoginUseCase {
 
     public LoginUseCase(UserRepository repository,
                         PasswordEncoder encoder,
-                        JwtService jwtService, RefreshTokenRepository refreshTokenRepository) {
+                        JwtService jwtService,
+                        RefreshTokenRepository refreshTokenRepository) {
         this.repository = repository;
         this.encoder = encoder;
         this.jwtService = jwtService;
@@ -49,7 +50,7 @@ public class LoginUseCase {
 
         RefreshToken entity = new RefreshToken();
         entity.setToken(refreshToken);
-        entity.setUsername(user.getUsername());
+        entity.setUser(user);
         entity.setRevoked(false);
         entity.setExpiresAt(LocalDateTime.now().plusDays(7));
 

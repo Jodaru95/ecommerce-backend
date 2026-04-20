@@ -43,21 +43,14 @@ public class AuthController {
         return loginUseCase.execute(request);
     }
 
-    @PostMapping("/refresh")
-    public AuthResponse refresh(@RequestBody RefreshRequest request) {
-        return refreshTokenUseCase.execute(
-                request.getRefreshToken()
-        );
+    @PostMapping("/logout")
+    public String logout(@RequestBody RefreshRequest request) {
+        logoutUseCase.execute(request.getRefreshToken());
+        return "Logout correcto";
     }
 
-    @PostMapping("/logout")
-    public String logout(
-            @RequestBody RefreshRequest request
-    ) {
-        logoutUseCase.execute(
-                request.getRefreshToken()
-        );
-
-        return "Logout correcto";
+    @PostMapping("/refresh")
+    public AuthResponse refresh(@RequestBody RefreshRequest request) {
+        return refreshTokenUseCase.execute(request.getRefreshToken());
     }
 }
