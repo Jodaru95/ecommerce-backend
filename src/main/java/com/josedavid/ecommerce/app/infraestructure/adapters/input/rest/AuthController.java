@@ -1,6 +1,7 @@
 package com.josedavid.ecommerce.app.infraestructure.adapters.input.rest;
 
 import com.josedavid.ecommerce.app.application.usecases.LoginUseCase;
+import com.josedavid.ecommerce.app.application.usecases.LogoutUseCase;
 import com.josedavid.ecommerce.app.application.usecases.RefreshTokenUseCase;
 import com.josedavid.ecommerce.app.application.usecases.RegisterUserUseCase;
 import com.josedavid.ecommerce.app.infraestructure.adapters.input.dto.AuthResponse;
@@ -19,15 +20,17 @@ public class AuthController {
     private final RegisterUserUseCase registerUserUseCase;
     private final LoginUseCase loginUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final LogoutUseCase logoutUseCase;
 
     public AuthController(
             RegisterUserUseCase registerUserUseCase,
             LoginUseCase loginUseCase,
-            RefreshTokenUseCase refreshTokenUseCase
+            RefreshTokenUseCase refreshTokenUseCase, LogoutUseCase logoutUseCase
     ) {
         this.registerUserUseCase = registerUserUseCase;
         this.loginUseCase = loginUseCase;
         this.refreshTokenUseCase = refreshTokenUseCase;
+        this.logoutUseCase = logoutUseCase;
     }
 
     @PostMapping("/register")
@@ -45,5 +48,16 @@ public class AuthController {
         return refreshTokenUseCase.execute(
                 request.getRefreshToken()
         );
+    }
+
+    @PostMapping("/logout")
+    public String logout(
+            @RequestBody RefreshRequest request
+    ) {
+        logoutUseCase.execute(
+                request.getRefreshToken()
+        );
+
+        return "Logout correcto";
     }
 }
