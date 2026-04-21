@@ -51,6 +51,9 @@ public class SecurityConfig {
                 .requestMatchers("/cart/**")
                     .hasAnyRole("USER","ADMIN")
 
+                .requestMatchers(HttpMethod.POST, "/orders/checkout")
+                    .hasRole("USER")
+                
                 .anyRequest().authenticated()
         );
 
