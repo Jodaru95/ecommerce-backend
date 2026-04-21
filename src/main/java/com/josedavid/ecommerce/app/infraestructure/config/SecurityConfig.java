@@ -53,6 +53,15 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.POST, "/orders/checkout")
                     .hasRole("USER")
+
+                .requestMatchers(HttpMethod.GET, "/orders/my-orders")
+                    .hasRole("USER")
+
+                .requestMatchers(HttpMethod.GET, "/orders")
+                    .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.PUT, "/orders/*/status")
+                    .hasRole("ADMIN")
                 
                 .anyRequest().authenticated()
         );
