@@ -4,9 +4,7 @@ import com.josedavid.ecommerce.app.application.dto.CartItemResponse;
 import com.josedavid.ecommerce.app.application.dto.CartResponse;
 import com.josedavid.ecommerce.app.domain.entity.Cart;
 import com.josedavid.ecommerce.app.domain.entity.CartItem;
-import com.josedavid.ecommerce.app.domain.entity.User;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.CartRepository;
-import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,19 +14,15 @@ import java.util.List;
 @Service
 public class GetCartUseCase {
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
 
-    public GetCartUseCase(
-        CartRepository cartRepository,
-        UserRepository userRepository
-    ) {
+    public GetCartUseCase(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
     }
 
     public CartResponse execute(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        Cart cart = cartRepository.findByUserUsername(username)
+                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
         List<CartItemResponse> items = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 

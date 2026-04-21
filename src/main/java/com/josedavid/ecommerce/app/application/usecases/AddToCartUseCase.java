@@ -30,7 +30,7 @@ public class AddToCartUseCase {
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        Cart cart = cartRepository.findByUser(user)
+        Cart cart = cartRepository.findByUserUsername(username)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
                     newCart.setUser(user);
