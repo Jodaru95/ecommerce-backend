@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -26,5 +30,18 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String phone;
+
+    private Boolean enabled;
+
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAddress> addresses = new ArrayList<>();
 
 }

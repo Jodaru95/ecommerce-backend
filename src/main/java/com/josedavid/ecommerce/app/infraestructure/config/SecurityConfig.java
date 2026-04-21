@@ -62,7 +62,10 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.PUT, "/orders/*/status")
                     .hasRole("ADMIN")
-                
+
+                .requestMatchers(HttpMethod.GET, "/me").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/me").authenticated()
+
                 .anyRequest().authenticated()
         );
 
