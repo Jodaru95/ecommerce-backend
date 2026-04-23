@@ -70,17 +70,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(
-            Exception ex,
-            HttpServletRequest request) {
-
+        Exception ex,
+        HttpServletRequest request
+    ) {
+        ex.printStackTrace(); // 👈 MOSTRAR ERROR REAL EN CONSOLA
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ApiError(
                 LocalDateTime.now(),
                 500,
                 "Internal Server Error",
-                "Ocurrió un error inesperado",
+                ex.getMessage(), // 👈 TEMPORALMENTE mostramos mensaje real
                 request.getRequestURI()
-            )
-        );
+            ));
     }
 }

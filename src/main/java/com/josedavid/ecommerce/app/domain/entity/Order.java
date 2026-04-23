@@ -1,6 +1,7 @@
 package com.josedavid.ecommerce.app.domain.entity;
 
 import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
+import com.josedavid.ecommerce.app.domain.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,4 +58,12 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    private String paymentTransactionId;
+
+    private LocalDateTime paidAt;
+
 }

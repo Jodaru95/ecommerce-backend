@@ -34,13 +34,21 @@ public class SaveAddressUseCase {
 
         address.setUser(user);
         address.setFullName(request.getFullName());
+        address.setPhone(request.getPhone());
         address.setAddressLine1(request.getAddressLine1());
+        address.setAddressLine2(request.getAddressLine2());
         address.setCity(request.getCity());
+        address.setProvince(request.getProvince());
         address.setPostalCode(request.getPostalCode());
         address.setCountry(request.getCountry());
 
         boolean first = addressRepository.findByUser(user).isEmpty();
-        address.setIsDefault(first);
+
+        if (first) {
+            address.setIsDefault(true);
+        } else {
+            address.setIsDefault(Boolean.TRUE.equals(request.getIsDefault()));
+        }
 
         addressRepository.save(address);
 

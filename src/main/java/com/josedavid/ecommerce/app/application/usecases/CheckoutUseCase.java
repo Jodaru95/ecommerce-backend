@@ -51,6 +51,7 @@ public class CheckoutUseCase {
         order.setUser(user);
         order.setCreatedAt(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING_PAYMENT);
+        order.setPaymentMethod(request.getPaymentMethod());
 
         // snapshot dirección
         order.setShippingFullName(address.getFullName());

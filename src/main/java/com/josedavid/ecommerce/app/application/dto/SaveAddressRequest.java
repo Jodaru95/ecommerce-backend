@@ -12,14 +12,23 @@ public class SaveAddressRequest {
     private String fullName;
 
     @NotBlank
+    private String phone;
+
+    @NotBlank
     private String addressLine1;
+
+    private String addressLine2;
 
     @NotBlank
     private String city;
+
+    private String province;
 
     @NotBlank
     private String postalCode;
 
     @NotBlank
     private String country;
+
+    private Boolean isDefault;
 }
