@@ -33,8 +33,27 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    // SNAPSHOT DIRECCIÓN ENVÍO
     @Column(nullable = false)
-    private String shippingAddress;
+    private String shippingFullName;
+
+    private String shippingPhone;
+
+    @Column(nullable = false)
+    private String shippingAddressLine1;
+
+    private String shippingAddressLine2;
+
+    @Column(nullable = false)
+    private String shippingCity;
+
+    private String shippingProvince;
+
+    @Column(nullable = false)
+    private String shippingPostalCode;
+
+    @Column(nullable = false)
+    private String shippingCountry;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();

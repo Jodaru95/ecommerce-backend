@@ -7,6 +7,7 @@ import com.josedavid.ecommerce.app.application.usecases.GetAllOrdersUseCase;
 import com.josedavid.ecommerce.app.application.usecases.GetMyOrdersUseCase;
 import com.josedavid.ecommerce.app.application.usecases.UpdateOrderStatusUseCase;
 import com.josedavid.ecommerce.app.domain.entity.Order;
+import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +34,7 @@ public class OrderController {
             Authentication auth,
             @RequestBody CheckoutRequest request
     ) {
-        return checkoutUseCase.execute(
-                auth.getName(),
-                request.getShippingAddress()
-        );
+        return checkoutUseCase.execute(auth.getName(), request);
     }
 
     @GetMapping("/my-orders")
@@ -56,4 +54,5 @@ public class OrderController {
     ) {
         updateOrderStatusUseCase.execute(id, request.getStatus());
     }
+
 }

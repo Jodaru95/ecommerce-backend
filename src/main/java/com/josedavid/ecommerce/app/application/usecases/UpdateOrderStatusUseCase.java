@@ -2,24 +2,33 @@ package com.josedavid.ecommerce.app.application.usecases;
 
 import com.josedavid.ecommerce.app.domain.entity.Order;
 import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
+import com.josedavid.ecommerce.app.domain.service.OrderStatusTransitionService;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateOrderStatusUseCase {
-    private final OrderRepository repository;
 
-    public UpdateOrderStatusUseCase(OrderRepository repository) {
-        this.repository = repository;
+    private final OrderRepository orderRepository;
+    private final OrderStatusTransitionService transitionService;
+
+    public UpdateOrderStatusUseCase(
+            OrderRepository orderRepository,
+            OrderStatusTransitionService transitionService
+    ) {
+        this.orderRepository = orderRepository;
+        this.transitionService = transitionService;
     }
 
-    public void execute(Long id, String status) {
+    public void execute(Long orderId, OrderStatus newStatus) {
 
-        Order order = repository.findById(id)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
 
-        order.setStatus(OrderStatus.valueOf(status.toUpperCase()));
+        transitionService.validate(order.getStatus(), newStatus);
 
-        repository.save(order);
+        order.setStatus(newStatus);
+
+        orderRepository.save(order);
     }
 }

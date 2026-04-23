@@ -1,9 +1,11 @@
 package com.josedavid.ecommerce.app.domain.enums;
 
 public enum OrderStatus {
-    PENDING,
+    PENDING_PAYMENT,
     PAID,
+    PROCESSING,
     SHIPPED,
     DELIVERED,
-    CANCELLED
+    CANCELLED,
+    REFUNDED
 }
