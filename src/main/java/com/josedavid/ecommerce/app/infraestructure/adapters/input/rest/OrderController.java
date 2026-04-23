@@ -55,11 +55,4 @@ public class OrderController {
         updateOrderStatusUseCase.execute(id, request.getStatus());
     }
 
-    @PostMapping("/{id}/pay")
-    public void payOrder(
-            @PathVariable Long id,
-            @RequestBody PaymentRequest request
-    ) {
-        payOrderUseCase.execute(id, request);
-    }
 }

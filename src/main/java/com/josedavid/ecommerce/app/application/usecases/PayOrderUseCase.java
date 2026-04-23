@@ -1,8 +1,8 @@
 package com.josedavid.ecommerce.app.application.usecases;
 
-import com.josedavid.ecommerce.app.application.dto.PaymentRequest;
 import com.josedavid.ecommerce.app.domain.entity.Order;
 import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
+import com.josedavid.ecommerce.app.domain.enums.PaymentMethod;
 import com.josedavid.ecommerce.app.domain.service.OrderStatusTransitionService;
 import com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class PayOrderUseCase {
     }
 
     @Transactional
-    public void execute(Long orderId, PaymentRequest request) {
+    public void execute(Long orderId) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
@@ -36,8 +36,11 @@ public class PayOrderUseCase {
                 OrderStatus.PAID
         );
 
+        if (order.getPaymentMethod() != PaymentMethod.CARD) {
+            throw new RuntimeException("Pedido no configurado para tarjeta");
+        }
+
         order.setStatus(OrderStatus.PAID);
-        order.setPaymentMethod(request.getPaymentMethod());
         order.setPaymentTransactionId(UUID.randomUUID().toString());
         order.setPaidAt(LocalDateTime.now());
 
