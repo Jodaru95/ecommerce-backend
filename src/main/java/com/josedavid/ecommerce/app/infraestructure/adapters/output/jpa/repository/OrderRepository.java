@@ -4,6 +4,8 @@ import com.josedavid.ecommerce.app.application.dto.MonthlySalesResponse;
 import com.josedavid.ecommerce.app.domain.entity.Order;
 import com.josedavid.ecommerce.app.domain.entity.User;
 import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,4 +37,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         ORDER BY EXTRACT(YEAR FROM o.paidAt), EXTRACT(MONTH FROM o.paidAt)
     """)
     List<MonthlySalesResponse> getMonthlySales();
+
+    Page<Order> findAll(Pageable pageable);
+
+    Page<Order> findByStatus(OrderStatus status, Pageable pageable);
+
+    Page<Order> findByStatusAndUserUsernameContainingIgnoreCase(
+            OrderStatus status,
+            String username,
+            Pageable pageable
+    );
+
+    Page<Order> findByUserUsernameContainingIgnoreCase(
+            String username,
+            Pageable pageable
+    );
 }
