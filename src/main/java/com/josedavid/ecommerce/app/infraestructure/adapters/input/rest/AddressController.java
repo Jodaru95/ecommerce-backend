@@ -6,6 +6,8 @@ import com.josedavid.ecommerce.app.application.usecases.DeleteAddressUseCase;
 import com.josedavid.ecommerce.app.application.usecases.GetAddressesUseCase;
 import com.josedavid.ecommerce.app.application.usecases.SaveAddressUseCase;
 import com.josedavid.ecommerce.app.application.usecases.SetDefaultAddressUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Addresses", description = "Direcciones del usuario")
 @RestController
 @RequestMapping("/addresses")
 @PreAuthorize("hasRole('USER')")
@@ -35,11 +38,13 @@ public class AddressController {
         this.setDefaultAddressUseCase = setDefaultAddressUseCase;
     }
 
+    @Operation(summary = "Obtener direcciones del usuario")
     @GetMapping
     public List<AddressResponse> getAll(Authentication auth) {
         return getAddressesUseCase.execute(auth.getName());
     }
 
+    @Operation(summary = "Guardar nueva dirección")
     @PostMapping
     public AddressResponse save(
             Authentication auth,
@@ -48,6 +53,7 @@ public class AddressController {
         return saveAddressUseCase.execute(auth.getName(), request);
     }
 
+    @Operation(summary = "Eliminar dirección")
     @DeleteMapping("/{id}")
     public void delete(
             Authentication auth,
@@ -56,6 +62,7 @@ public class AddressController {
         deleteAddressUseCase.execute(auth.getName(), id);
     }
 
+    @Operation(summary = "Establecer dirección predeterminada")
     @PutMapping("/{id}/default")
     public void setDefault(
             Authentication auth,

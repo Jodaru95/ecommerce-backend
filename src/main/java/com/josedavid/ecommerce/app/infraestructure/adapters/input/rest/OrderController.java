@@ -6,12 +6,15 @@ import com.josedavid.ecommerce.app.application.dto.OrderSummaryResponse;
 import com.josedavid.ecommerce.app.application.dto.UpdateOrderStatusRequest;
 import com.josedavid.ecommerce.app.application.usecases.*;
 import com.josedavid.ecommerce.app.domain.entity.Order;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Orders", description = "Pedidos del usuario")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -20,20 +23,19 @@ public class OrderController {
     private final GetMyOrdersUseCase getMyOrdersUseCase;
     private final GetAllOrdersUseCase getAllOrdersUseCase;
     private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
-    private final PayOrderUseCase payOrderUseCase;
     private final GetOrderDetailUseCase getOrderDetailUseCase;
     private final CancelOrderUseCase cancelOrderUseCase;
 
-    public OrderController(CheckoutUseCase checkoutUseCase, GetMyOrdersUseCase getMyOrdersUseCase, GetAllOrdersUseCase getAllOrdersUseCase, UpdateOrderStatusUseCase updateOrderStatusUseCase, PayOrderUseCase payOrderUseCase, GetOrderDetailUseCase getOrderDetailUseCase, CancelOrderUseCase cancelOrderUseCase) {
+    public OrderController(CheckoutUseCase checkoutUseCase, GetMyOrdersUseCase getMyOrdersUseCase, GetAllOrdersUseCase getAllOrdersUseCase, UpdateOrderStatusUseCase updateOrderStatusUseCase, GetOrderDetailUseCase getOrderDetailUseCase, CancelOrderUseCase cancelOrderUseCase) {
         this.checkoutUseCase = checkoutUseCase;
         this.getMyOrdersUseCase = getMyOrdersUseCase;
         this.getAllOrdersUseCase = getAllOrdersUseCase;
         this.updateOrderStatusUseCase = updateOrderStatusUseCase;
-        this.payOrderUseCase = payOrderUseCase;
         this.getOrderDetailUseCase = getOrderDetailUseCase;
         this.cancelOrderUseCase = cancelOrderUseCase;
     }
 
+    @Operation(summary = "Crear pedido desde el carrito")
     @PostMapping("/checkout")
     @PreAuthorize("hasRole('USER')")
     public Long checkout(
@@ -43,18 +45,21 @@ public class OrderController {
         return checkoutUseCase.execute(auth.getName(), request);
     }
 
+    @Operation(summary = "Obtener pedidos del usuario autenticado")
     @GetMapping("/my-orders")
     @PreAuthorize("hasRole('USER')")
     public List<OrderSummaryResponse> myOrders(Authentication auth) {
         return getMyOrdersUseCase.execute(auth.getName());
     }
 
+    @Operation(summary = "Obtener todos los pedidos (admin)")
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public List<Order> allOrders() {
         return getAllOrdersUseCase.execute();
     }
 
+    @Operation(summary = "Actualizar estado de un pedido")
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
     public void updateStatus(
@@ -64,6 +69,7 @@ public class OrderController {
         updateOrderStatusUseCase.execute(id, request.getStatus());
     }
 
+    @Operation(summary = "Obtener detalle de un pedido")
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public OrderDetailResponse detail(
@@ -77,6 +83,7 @@ public class OrderController {
         return getOrderDetailUseCase.execute(id, auth.getName(), isAdmin);
     }
 
+    @Operation(summary = "Cancelar pedido del usuario")
     @PutMapping("/{id}/cancel")
     @PreAuthorize("hasRole('USER')")
     public void cancel(
@@ -85,5 +92,4 @@ public class OrderController {
     ) {
         cancelOrderUseCase.execute(id, auth.getName());
     }
-
 }

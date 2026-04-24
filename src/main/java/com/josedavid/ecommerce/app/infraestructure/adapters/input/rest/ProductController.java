@@ -4,6 +4,7 @@ import com.josedavid.ecommerce.app.application.usecases.*;
 import com.josedavid.ecommerce.app.domain.entity.Product;
 import com.josedavid.ecommerce.app.application.dto.ProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Tag(name = "Products", description = "Gestión de productos")
 @RestController
 @RequestMapping("/products")
 public class ProductController {

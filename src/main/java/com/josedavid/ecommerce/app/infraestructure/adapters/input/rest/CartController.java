@@ -4,11 +4,14 @@ import com.josedavid.ecommerce.app.application.dto.AddToCartRequest;
 import com.josedavid.ecommerce.app.application.dto.UpdateCartItemRequest;
 import com.josedavid.ecommerce.app.application.dto.CartResponse;
 import com.josedavid.ecommerce.app.application.usecases.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Cart", description = "Carrito de compra")
 @RestController
 @RequestMapping("/cart")
 @PreAuthorize("hasRole('USER')")
@@ -31,7 +34,7 @@ public class CartController {
         this.getCartUseCase = getCartUseCase;
     }
 
-    // 🟢 Añadir producto
+    @Operation(summary = "Añadir producto al carrito")
     @PostMapping("/items")
     public ResponseEntity<Void> addToCart(
         Authentication auth,
@@ -42,7 +45,7 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    // 🟡 Actualizar cantidad
+    @Operation(summary = "Actualizar cantidad de un producto del carrito")
     @PutMapping("/items/{itemId}")
     public ResponseEntity<Void> updateItem(
         @PathVariable Long itemId,
@@ -52,14 +55,14 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    // 🔴 Eliminar item
+    @Operation(summary = "Eliminar producto del carrito")
     @DeleteMapping("/items/{itemId}")
     public ResponseEntity<Void> removeItem(@PathVariable Long itemId) {
         removeCartItemUseCase.execute(itemId);
         return ResponseEntity.ok().build();
     }
 
-    // 🔵 Obtener carrito
+    @Operation(summary = "Obtener carrito actual del usuario")
     @GetMapping
     public ResponseEntity<CartResponse> getCart(Authentication auth) {
         String username = auth.getName();
