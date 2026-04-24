@@ -1,5 +1,6 @@
 package com.josedavid.ecommerce.app.infraestructure.adapters.output.jpa.repository;
 
+import com.josedavid.ecommerce.app.application.dto.MonthlySalesResponse;
 import com.josedavid.ecommerce.app.domain.entity.Order;
 import com.josedavid.ecommerce.app.domain.entity.User;
 import com.josedavid.ecommerce.app.domain.enums.OrderStatus;
@@ -21,4 +22,17 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         WHERE o.status = 'PAID'
     """)
     BigDecimal getTotalRevenue();
+
+    @Query("""
+        SELECT new com.josedavid.ecommerce.app.application.dto.MonthlySalesResponse(
+            EXTRACT(YEAR FROM o.paidAt),
+            EXTRACT(MONTH FROM o.paidAt),
+            SUM(o.totalPrice)
+        )
+        FROM Order o
+        WHERE o.status = com.josedavid.ecommerce.app.domain.enums.OrderStatus.PAID
+        GROUP BY EXTRACT(YEAR FROM o.paidAt), EXTRACT(MONTH FROM o.paidAt)
+        ORDER BY EXTRACT(YEAR FROM o.paidAt), EXTRACT(MONTH FROM o.paidAt)
+    """)
+    List<MonthlySalesResponse> getMonthlySales();
 }
