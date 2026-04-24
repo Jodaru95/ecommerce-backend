@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -43,24 +44,28 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = "Obtener todos los productos")
+    @PreAuthorize("isAuthenticated()")
     public List<Product> getAll() {
         return getProductsUseCase.execute();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener producto por Id")
+    @PreAuthorize("isAuthenticated()")
     public Product getById(@PathVariable Long id) {
         return getProductByIdUseCase.execute(id);
     }
 
     @PostMapping
     @Operation(summary = "Crear producto")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product create(@Valid @RequestBody ProductRequest request) {
         return createProductUseCase.execute(request);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar producto")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product update(
             @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
@@ -70,6 +75,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Borrar producto")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         deleteProductUseCase.execute(id);
@@ -79,12 +85,14 @@ public class ProductController {
 
     @GetMapping("/paged")
     @Operation(summary = "Paginacion de los productos")
+    @PreAuthorize("isAuthenticated()")
     public Page<Product> getPaged(Pageable pageable) {
         return getProductsPagedUseCase.execute(pageable);
     }
 
     @GetMapping("/search")
     @Operation(summary = "Filtrar productos")
+    @PreAuthorize("isAuthenticated()")
     public List<Product> search(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) BigDecimal minPrice,

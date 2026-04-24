@@ -1,6 +1,7 @@
 package com.josedavid.ecommerce.app.infraestructure.adapters.input.rest;
 
 import com.josedavid.ecommerce.app.application.dto.CheckoutRequest;
+import com.josedavid.ecommerce.app.application.dto.OrderDetailResponse;
 import com.josedavid.ecommerce.app.application.dto.OrderSummaryResponse;
 import com.josedavid.ecommerce.app.application.dto.UpdateOrderStatusRequest;
 import com.josedavid.ecommerce.app.application.usecases.*;
@@ -20,13 +21,17 @@ public class OrderController {
     private final GetAllOrdersUseCase getAllOrdersUseCase;
     private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
     private final PayOrderUseCase payOrderUseCase;
+    private final GetOrderDetailUseCase getOrderDetailUseCase;
+    private final CancelOrderUseCase cancelOrderUseCase;
 
-    public OrderController(CheckoutUseCase checkoutUseCase, GetMyOrdersUseCase getMyOrdersUseCase, GetAllOrdersUseCase getAllOrdersUseCase, UpdateOrderStatusUseCase updateOrderStatusUseCase, PayOrderUseCase payOrderUseCase) {
+    public OrderController(CheckoutUseCase checkoutUseCase, GetMyOrdersUseCase getMyOrdersUseCase, GetAllOrdersUseCase getAllOrdersUseCase, UpdateOrderStatusUseCase updateOrderStatusUseCase, PayOrderUseCase payOrderUseCase, GetOrderDetailUseCase getOrderDetailUseCase, CancelOrderUseCase cancelOrderUseCase) {
         this.checkoutUseCase = checkoutUseCase;
         this.getMyOrdersUseCase = getMyOrdersUseCase;
         this.getAllOrdersUseCase = getAllOrdersUseCase;
         this.updateOrderStatusUseCase = updateOrderStatusUseCase;
         this.payOrderUseCase = payOrderUseCase;
+        this.getOrderDetailUseCase = getOrderDetailUseCase;
+        this.cancelOrderUseCase = cancelOrderUseCase;
     }
 
     @PostMapping("/checkout")
@@ -57,6 +62,28 @@ public class OrderController {
             @RequestBody UpdateOrderStatusRequest request
     ) {
         updateOrderStatusUseCase.execute(id, request.getStatus());
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public OrderDetailResponse detail(
+        @PathVariable Long id,
+        Authentication auth
+    ) {
+        boolean isAdmin = auth.getAuthorities()
+            .stream()
+            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        return getOrderDetailUseCase.execute(id, auth.getName(), isAdmin);
+    }
+
+    @PutMapping("/{id}/cancel")
+    @PreAuthorize("hasRole('USER')")
+    public void cancel(
+            @PathVariable Long id,
+            Authentication auth
+    ) {
+        cancelOrderUseCase.execute(id, auth.getName());
     }
 
 }

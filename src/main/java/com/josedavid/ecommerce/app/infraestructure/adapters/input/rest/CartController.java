@@ -5,11 +5,13 @@ import com.josedavid.ecommerce.app.application.dto.UpdateCartItemRequest;
 import com.josedavid.ecommerce.app.application.dto.CartResponse;
 import com.josedavid.ecommerce.app.application.usecases.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cart")
+@PreAuthorize("hasRole('USER')")
 public class CartController {
 
     private final AddToCartUseCase addToCartUseCase;

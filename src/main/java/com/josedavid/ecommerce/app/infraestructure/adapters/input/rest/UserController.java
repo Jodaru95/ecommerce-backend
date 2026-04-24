@@ -5,11 +5,13 @@ import com.josedavid.ecommerce.app.application.dto.UserMeResponse;
 import com.josedavid.ecommerce.app.application.usecases.GetMeUseCase;
 import com.josedavid.ecommerce.app.application.usecases.UpdateMeUseCase;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/me")
+@PreAuthorize("isAuthenticated()")
 public class UserController {
 
     private final GetMeUseCase getMeUseCase;

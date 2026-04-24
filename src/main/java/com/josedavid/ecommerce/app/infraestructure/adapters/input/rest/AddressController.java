@@ -7,6 +7,7 @@ import com.josedavid.ecommerce.app.application.usecases.GetAddressesUseCase;
 import com.josedavid.ecommerce.app.application.usecases.SaveAddressUseCase;
 import com.josedavid.ecommerce.app.application.usecases.SetDefaultAddressUseCase;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/addresses")
+@PreAuthorize("hasRole('USER')")
 public class AddressController {
 
     private final GetAddressesUseCase getAddressesUseCase;
